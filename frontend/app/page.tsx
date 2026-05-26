@@ -19,12 +19,12 @@ export default function Home() {
         </p>
 
         <div className="flex flex-col gap-4 sm:flex-row">
-          <button className="rounded-xl bg-blue-600 px-6 py-3 font-medium text-white hover:bg-blue-700">
+          <a href="/signin" className="rounded-xl bg-blue-600 px-6 py-3 font-medium text-white hover:bg-blue-700">
             Get Started
-          </button>
-          <button className="rounded-xl border border-gray-300 px-6 py-3 font-medium hover:bg-gray-100">
+          </a>
+          <a href="/roadmap" className="rounded-xl border border-gray-300 px-6 py-3 font-medium hover:bg-gray-100">
             View F-1 Roadmap
-          </button>
+          </a>
         </div>
       </section>
 

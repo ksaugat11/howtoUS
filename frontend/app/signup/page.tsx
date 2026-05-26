@@ -1,3 +1,5 @@
+"use client";
+
 import Navbar from "@/components/Navbar";
 
 export default function SignUp() {
@@ -76,9 +78,12 @@ export default function SignUp() {
             />
           </div>
 
-          <button className="w-full rounded-xl bg-blue-600 py-3 text-sm font-medium text-white hover:bg-blue-700">
-            Create Account
-          </button>
+         <button
+         onClick={() => window.location.href = "/onboarding"}
+         className="w-full rounded-xl bg-blue-600 py-3 text-sm font-medium text-white hover:bg-blue-700"
+        >
+        Create Account
+        </button>
 
           <p className="mt-4 text-center text-sm text-gray-500">
             Already have an account?{" "}
