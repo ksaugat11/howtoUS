@@ -10,7 +10,7 @@ export default function Navbar() {
         {/* Nav Links */}
         <div className="hidden gap-8 md:flex">
           <a href="/" className="text-sm font-medium text-gray-600 hover:text-blue-600">Home</a>
-          <a href="#" className="text-sm font-medium text-gray-600 hover:text-blue-600">Roadmap</a>
+          <a href="/roadmap" className="text-sm font-medium text-gray-600 hover:text-blue-600">Roadmap</a>
           <a href="#" className="text-sm font-medium text-gray-600 hover:text-blue-600">Checklist</a>
           <a href="#" className="text-sm font-medium text-gray-600 hover:text-blue-600">Universities</a>
         </div>
