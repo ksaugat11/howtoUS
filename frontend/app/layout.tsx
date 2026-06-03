@@ -1,21 +1,9 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-poppins",
-});
-
 export const metadata: Metadata = {
-  title: "HowToUS",
-  description: "A step-by-step guide for F-1 students applying to study in the United States.",
+  title: "HowToUS — A warm guide to the F-1 student visa",
+  description: "A friendly, step-by-step companion for international students applying to study in the US.",
 };
 
 export default function RootLayout({
@@ -25,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${poppins.variable}`}>
+      <body>
         {children}
       </body>
     </html>

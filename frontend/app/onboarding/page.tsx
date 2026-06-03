@@ -1,10 +1,12 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const steps = ["Education Level", "Academic Info", "English Test", "Goals"];
 
 export default function Onboarding() {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
     educationLevel: "",
@@ -25,49 +27,73 @@ export default function Onboarding() {
   const back = () => setCurrentStep((prev) => prev - 1);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-6 font-[family-name:var(--font-inter)]">
-      
-      {/* Logo */}
-      <a href="/" className="mb-8 font-[family-name:var(--font-poppins)] text-2xl font-bold text-blue-600">
-        HowToUS
-      </a>
+    <div style={{ minHeight: "100vh", backgroundColor: "var(--background)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "2rem" }}>
 
-      {/* Progress bar */}
-      <div className="mb-8 flex w-full max-w-md gap-2">
+      {/* Logo */}
+      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "2rem" }}>
+        <span style={{ height: "2rem", width: "2rem", display: "grid", placeItems: "center", borderRadius: "0.5rem", backgroundColor: "var(--primary)", color: "var(--primary-foreground)", fontSize: "1rem" }}>
+          🧭
+        </span>
+        <span className="font-serif" style={{ fontSize: "1.25rem", fontWeight: 600, color: "var(--foreground)" }}>
+          HowTo<span style={{ color: "var(--accent)" }}>US</span>
+        </span>
+      </div>
+
+      {/* Progress dots */}
+      <div style={{ display: "flex", gap: "0.5rem", marginBottom: "2rem" }}>
         {steps.map((_, index) => (
           <div
             key={index}
-            className="h-1.5 flex-1 rounded-full transition-all duration-300"
-            style={{ backgroundColor: index <= currentStep ? "#2563eb" : "#e5e7eb" }}
+            style={{
+              height: "0.5rem",
+              width: index === currentStep ? "2rem" : "0.5rem",
+              borderRadius: "9999px",
+              backgroundColor: index <= currentStep ? "var(--primary)" : "var(--border)",
+              transition: "all 0.3s ease",
+            }}
           />
         ))}
       </div>
 
-      <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-sm border border-gray-100">
+      {/* Card */}
+      <div style={{ width: "100%", maxWidth: "26rem", backgroundColor: "var(--card)", border: "1px solid var(--border)", borderRadius: "0.75rem", padding: "2rem" }}>
 
-        {/* Step label */}
-        <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-blue-600">
+        <p style={{ fontSize: "0.75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--muted-foreground)", marginBottom: "0.5rem" }}>
           Step {currentStep + 1} of {steps.length}
         </p>
 
-        {/* STEP 1 - Education Level */}
+        {/* STEP 1 */}
         {currentStep === 0 && (
           <div>
-            <h2 className="mb-2 font-[family-name:var(--font-poppins)] text-2xl font-bold text-gray-900">
-              What is your current education level?
+            <h2 className="font-serif" style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--foreground)", marginBottom: "0.4rem" }}>
+              Where are you in your studies?
             </h2>
-            <p className="mb-6 text-sm text-gray-500">This helps us guide you to the right path.</p>
-
-            <div className="flex flex-col gap-3">
-              {["High School Graduate", "Currently in High School", "Undergraduate Student", "Undergraduate Graduate", "Looking for Masters", "Looking for PhD"].map((option) => (
+            <p style={{ fontSize: "0.875rem", color: "var(--muted-foreground)", marginBottom: "1.5rem" }}>
+              This helps us guide you to the right path.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.625rem" }}>
+              {[
+                "Currently in High School",
+                "High School Graduate",
+                "Undergraduate Student",
+                "Undergraduate Graduate",
+                "Looking for Masters",
+                "Looking for PhD",
+              ].map((option) => (
                 <button
                   key={option}
                   onClick={() => update("educationLevel", option)}
-                  className="rounded-xl border px-4 py-3 text-left text-sm font-medium transition-all duration-200"
                   style={{
-                    borderColor: formData.educationLevel === option ? "#2563eb" : "#e5e7eb",
-                    backgroundColor: formData.educationLevel === option ? "#eff6ff" : "white",
-                    color: formData.educationLevel === option ? "#2563eb" : "#374151",
+                    padding: "0.75rem 1rem",
+                    borderRadius: "0.5rem",
+                    border: `1px solid ${formData.educationLevel === option ? "var(--primary)" : "var(--border)"}`,
+                    backgroundColor: formData.educationLevel === option ? "#F0FDF4" : "transparent",
+                    color: formData.educationLevel === option ? "var(--primary)" : "var(--foreground)",
+                    fontSize: "0.875rem",
+                    fontWeight: 500,
+                    textAlign: "left",
+                    cursor: "pointer",
+                    transition: "all 0.2s",
                   }}
                 >
                   {option}
@@ -77,106 +103,104 @@ export default function Onboarding() {
           </div>
         )}
 
-        {/* STEP 2 - Academic Info */}
+        {/* STEP 2 */}
         {currentStep === 1 && (
           <div>
-            <h2 className="mb-2 font-[family-name:var(--font-poppins)] text-2xl font-bold text-gray-900">
+            <h2 className="font-serif" style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--foreground)", marginBottom: "0.4rem" }}>
               Tell us about your academics
             </h2>
-            <p className="mb-6 text-sm text-gray-500">We use this to suggest universities that fit your profile.</p>
-
-            <div className="flex flex-col gap-4">
-              <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">Intended Major</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Computer Science"
-                  value={formData.major}
-                  onChange={(e) => update("major", e.target.value)}
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">GPA (out of 4.0)</label>
-                <input
-                  type="text"
-                  placeholder="e.g. 3.8"
-                  value={formData.gpa}
-                  onChange={(e) => update("gpa", e.target.value)}
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">SAT Score (optional)</label>
-                <input
-                  type="text"
-                  placeholder="e.g. 1350"
-                  value={formData.satScore}
-                  onChange={(e) => update("satScore", e.target.value)}
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                />
-              </div>
+            <p style={{ fontSize: "0.875rem", color: "var(--muted-foreground)", marginBottom: "1.5rem" }}>
+              We use this to suggest universities that fit your profile.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+              {[
+                { label: "Intended Major", field: "major", placeholder: "e.g. Computer Science" },
+                { label: "GPA (out of 4.0)", field: "gpa", placeholder: "e.g. 3.8" },
+                { label: "SAT Score (optional)", field: "satScore", placeholder: "e.g. 1350" },
+              ].map((input) => (
+                <div key={input.field}>
+                  <label style={{ display: "block", fontSize: "0.875rem", fontWeight: 500, color: "var(--foreground)", marginBottom: "0.4rem" }}>
+                    {input.label}
+                  </label>
+                  <input
+                    type="text"
+                    placeholder={input.placeholder}
+                    value={formData[input.field as keyof typeof formData]}
+                    onChange={(e) => update(input.field, e.target.value)}
+                    style={{ width: "100%", padding: "0.625rem 0.875rem", borderRadius: "0.5rem", border: "1px solid var(--border)", backgroundColor: "var(--background)", color: "var(--foreground)", fontSize: "0.875rem", outline: "none", boxSizing: "border-box" }}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         )}
 
-        {/* STEP 3 - English Test */}
+        {/* STEP 3 */}
         {currentStep === 2 && (
           <div>
-            <h2 className="mb-2 font-[family-name:var(--font-poppins)] text-2xl font-bold text-gray-900">
-              English proficiency test
+            <h2 className="font-serif" style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--foreground)", marginBottom: "0.4rem" }}>
+              English proficiency
             </h2>
-            <p className="mb-6 text-sm text-gray-500">Most US universities require an English test score.</p>
-
-            <div className="mb-4 flex flex-col gap-3">
+            <p style={{ fontSize: "0.875rem", color: "var(--muted-foreground)", marginBottom: "1.5rem" }}>
+              Most US universities require an English test score.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.625rem", marginBottom: "1rem" }}>
               {["IELTS", "TOEFL", "Duolingo English Test", "Not taken yet"].map((option) => (
                 <button
                   key={option}
                   onClick={() => update("englishTest", option)}
-                  className="rounded-xl border px-4 py-3 text-left text-sm font-medium transition-all duration-200"
                   style={{
-                    borderColor: formData.englishTest === option ? "#2563eb" : "#e5e7eb",
-                    backgroundColor: formData.englishTest === option ? "#eff6ff" : "white",
-                    color: formData.englishTest === option ? "#2563eb" : "#374151",
+                    padding: "0.75rem 1rem",
+                    borderRadius: "0.5rem",
+                    border: `1px solid ${formData.englishTest === option ? "var(--primary)" : "var(--border)"}`,
+                    backgroundColor: formData.englishTest === option ? "#F0FDF4" : "transparent",
+                    color: formData.englishTest === option ? "var(--primary)" : "var(--foreground)",
+                    fontSize: "0.875rem",
+                    fontWeight: 500,
+                    textAlign: "left",
+                    cursor: "pointer",
+                    transition: "all 0.2s",
                   }}
                 >
                   {option}
                 </button>
               ))}
             </div>
-
             {formData.englishTest && formData.englishTest !== "Not taken yet" && (
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">Your Score</label>
+                <label style={{ display: "block", fontSize: "0.875rem", fontWeight: 500, color: "var(--foreground)", marginBottom: "0.4rem" }}>
+                  Your Score
+                </label>
                 <input
                   type="text"
                   placeholder={formData.englishTest === "IELTS" ? "e.g. 7.0" : "e.g. 100"}
                   value={formData.englishScore}
                   onChange={(e) => update("englishScore", e.target.value)}
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  style={{ width: "100%", padding: "0.625rem 0.875rem", borderRadius: "0.5rem", border: "1px solid var(--border)", backgroundColor: "var(--background)", color: "var(--foreground)", fontSize: "0.875rem", outline: "none", boxSizing: "border-box" }}
                 />
               </div>
             )}
           </div>
         )}
 
-        {/* STEP 4 - Goals */}
+        {/* STEP 4 */}
         {currentStep === 3 && (
           <div>
-            <h2 className="mb-2 font-[family-name:var(--font-poppins)] text-2xl font-bold text-gray-900">
-              What are your goals?
+            <h2 className="font-serif" style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--foreground)", marginBottom: "0.4rem" }}>
+              Almost there
             </h2>
-            <p className="mb-6 text-sm text-gray-500">Almost done! Just a couple more things.</p>
-
-            <div className="flex flex-col gap-4">
+            <p style={{ fontSize: "0.875rem", color: "var(--muted-foreground)", marginBottom: "1.5rem" }}>
+              Just a couple more things to personalize your roadmap.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">Intended Degree in the US</label>
+                <label style={{ display: "block", fontSize: "0.875rem", fontWeight: 500, color: "var(--foreground)", marginBottom: "0.4rem" }}>
+                  Intended Degree in the US
+                </label>
                 <select
                   value={formData.intendedDegree}
                   onChange={(e) => update("intendedDegree", e.target.value)}
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  style={{ width: "100%", padding: "0.625rem 0.875rem", borderRadius: "0.5rem", border: "1px solid var(--border)", backgroundColor: "var(--background)", color: "var(--foreground)", fontSize: "0.875rem", outline: "none", boxSizing: "border-box" }}
                 >
                   <option value="">Select degree</option>
                   <option value="associates">Associate's Degree</option>
@@ -185,13 +209,14 @@ export default function Onboarding() {
                   <option value="phd">PhD</option>
                 </select>
               </div>
-
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">Intended Start Semester</label>
+                <label style={{ display: "block", fontSize: "0.875rem", fontWeight: 500, color: "var(--foreground)", marginBottom: "0.4rem" }}>
+                  Intended Start Semester
+                </label>
                 <select
                   value={formData.startSemester}
                   onChange={(e) => update("startSemester", e.target.value)}
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  style={{ width: "100%", padding: "0.625rem 0.875rem", borderRadius: "0.5rem", border: "1px solid var(--border)", backgroundColor: "var(--background)", color: "var(--foreground)", fontSize: "0.875rem", outline: "none", boxSizing: "border-box" }}
                 >
                   <option value="">Select semester</option>
                   <option value="fall2025">Fall 2025</option>
@@ -204,38 +229,36 @@ export default function Onboarding() {
           </div>
         )}
 
-        {/* Navigation buttons */}
-        <div className="mt-8 flex justify-between">
+        {/* Navigation */}
+        <div style={{ display: "flex", justifyContent: "space-between", marginTop: "2rem" }}>
           {currentStep > 0 ? (
             <button
               onClick={back}
-              className="rounded-xl border border-gray-200 px-6 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50"
+              style={{ padding: "0.625rem 1.25rem", borderRadius: "0.5rem", border: "1px solid var(--border)", backgroundColor: "transparent", color: "var(--foreground)", fontSize: "0.875rem", fontWeight: 500, cursor: "pointer" }}
             >
               Back
             </button>
-          ) : (
-            <div />
-          )}
+          ) : <div />}
 
           {currentStep < steps.length - 1 ? (
             <button
               onClick={next}
               disabled={currentStep === 0 && !formData.educationLevel}
-              className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-40"
+              style={{ padding: "0.625rem 1.25rem", borderRadius: "0.5rem", border: "none", backgroundColor: "var(--primary)", color: "var(--primary-foreground)", fontSize: "0.875rem", fontWeight: 500, cursor: "pointer", opacity: currentStep === 0 && !formData.educationLevel ? 0.4 : 1 }}
             >
               Continue
             </button>
           ) : (
             <button
-              onClick={() => window.location.href = "/"}
-              className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-medium text-white hover:bg-blue-700"
+              onClick={() => router.push("/")}
+              style={{ padding: "0.625rem 1.25rem", borderRadius: "0.5rem", border: "none", backgroundColor: "var(--primary)", color: "var(--primary-foreground)", fontSize: "0.875rem", fontWeight: 500, cursor: "pointer" }}
             >
-              Finish Setup
+              Finish setup →
             </button>
           )}
         </div>
 
       </div>
-    </main>
+    </div>
   );
 }
