@@ -250,7 +250,23 @@ export default function Onboarding() {
             </button>
           ) : (
             <button
-              onClick={() => router.push("/")}
+                onClick={async () => {
+                const token = localStorage.getItem("access_token");
+                if (token) {
+                const { saveOnboarding } = await import("@/lib/api");
+                await saveOnboarding({
+                education_level: formData.educationLevel,
+                major: formData.major,
+                gpa: formData.gpa,
+                sat_score: formData.satScore,
+                english_test: formData.englishTest,
+                english_score: formData.englishScore,
+                intended_degree: formData.intendedDegree,
+                start_semester: formData.startSemester,
+             }, token);
+  }
+  router.push("/");
+}}
               style={{ padding: "0.625rem 1.25rem", borderRadius: "0.5rem", border: "none", backgroundColor: "var(--primary)", color: "var(--primary-foreground)", fontSize: "0.875rem", fontWeight: 500, cursor: "pointer" }}
             >
               Finish setup →
